@@ -38,7 +38,7 @@ public class BoardController {
     @GetMapping("/board/boardList")
     public String boardList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                             @RequestParam(value = "q", required = false, defaultValue = "") String q,
-                            @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type, Model model) {
+                            @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type, Model model,HttpSession session) {
         List<BoardDTO> boardDTOList = null;
         PageDTO pageDTO = null;
         if(q.equals("")){
@@ -48,10 +48,14 @@ public class BoardController {
             boardDTOList = boardService.searchList(page,type,q);
             pageDTO = boardService.pagingSearchParam(page,type,q);
         }
+        String loginEmail = (String) session.getAttribute("loginEmail");
+        MemberDTO memberDTO = memberService.findByEmail(loginEmail);
+        Long id = memberDTO.getId();
         model.addAttribute("boardList",boardDTOList);
         model.addAttribute("paging",pageDTO);
         model.addAttribute("q",q);
         model.addAttribute("type",type);
+        model.addAttribute("memberId",id);
         return "/boardPages/boardList";
     }
 

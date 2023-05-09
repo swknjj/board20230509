@@ -10,7 +10,7 @@
             <a href="/member/Login">로그인</a>
         </li>
         <li id="li_3">
-            <a href="#">글 목록</a>
+            <a href="/board/boardList">글 목록</a>
         </li>
         <li class="login-name" id="login-area">
 

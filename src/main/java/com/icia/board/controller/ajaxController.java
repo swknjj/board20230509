@@ -18,8 +18,6 @@ public class ajaxController {
     @PostMapping("email-check")
     public ResponseEntity emailCheck(@RequestParam("email_check") String email) {
         MemberDTO memberDTO = memberService.findByEmail(email);
-        System.out.println("email = " + email);
-        System.out.println("memberDTO = " + memberDTO);
         if(memberDTO == null) {
             return new ResponseEntity<>(memberDTO, HttpStatus.OK);
         }else {

@@ -32,7 +32,7 @@ public class MemberController {
         MemberDTO member = memberService.memberLogin(memberDTO);
         if(member != null){
             session.setAttribute("loginEmail",memberDTO.getMemberEmail());
-            return "/boardPages/boardList";
+            return "redirect:/board/boardList";
         }else {
             return "/response/loginErrorPage";
         }
