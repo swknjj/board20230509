@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+#header {
+    background-color: pink;
+    text-align: center;
+    padding: 20px;
+    height: 10%;
+}
+
+#nav {
+    background-color: greenyellow;
+    height: 20%;
+}
+
+#section {
+    background-color: deeppink;
+    padding: 20px;
+    height: 70%;
+    overflow-scrolling: auto;
+}
+
+#footer {
+    background-color: hotpink;
+    text-align: center;
+    padding: 20px;
+    height: 10%;
+}
+
+#nav ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+#nav ul li {
+    float: left;
+}
+
+#nav ul li a {
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    color: red;
+}

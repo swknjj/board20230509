@@ -1,16 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-05-09
-  Time: 오전 10:59
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-</body>
-</html>
+<div id="footer">
+
+</div>
+
+<script>
+    const date = new Date();
+    const footer = document.getElementById("footer");
+    footer.innerHTML = "<p>&copy" + date.getFullYear() + "&nbsp; HRDKOREA All right reserverd. </p>";
+</script>

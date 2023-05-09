@@ -4,9 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.Timestamp;
+
 @Setter
 @Getter
 @ToString
 
 public class CommentDTO {
+    Long id;
+    Long boardId;
+    String commentWriter;
+    Timestamp commentCreatedDate;
 }

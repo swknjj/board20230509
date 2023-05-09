@@ -13,8 +13,8 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/db_board?useSSL=false&amp;serverTimezone=Asia/Seoul" />
-        <property name="username" value="user_board"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/db_signboard?useSSL=false&amp;serverTimezone=Asia/Seoul" />
+        <property name="username" value="user_signboard"/>
         <property name="password" value="1234"/>
     </bean>
 
