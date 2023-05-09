@@ -16,14 +16,14 @@ public class ajaxController {
 
     // 이메일 중복체크 ajax
     @PostMapping("email-check")
-    public ResponseEntity emailCheck(@RequestParam("email_check")String email) {
+    public ResponseEntity emailCheck(@RequestParam("email_check") String email) {
         MemberDTO memberDTO = memberService.findByEmail(email);
+        System.out.println("email = " + email);
+        System.out.println("memberDTO = " + memberDTO);
         if(memberDTO == null) {
             return new ResponseEntity<>(memberDTO, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(memberDTO, HttpStatus.CONFLICT);
         }
-
-
     }
 }
