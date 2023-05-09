@@ -14,6 +14,7 @@ public class ajaxController {
     @Autowired
     MemberService memberService;
 
+    // 이메일 중복체크 ajax
     @PostMapping("email-check")
     public ResponseEntity emailCheck(@RequestParam("email_check")String email) {
         MemberDTO memberDTO = memberService.findByEmail(email);

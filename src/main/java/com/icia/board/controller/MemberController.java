@@ -13,12 +13,6 @@ public class MemberController {
     @Autowired
     MemberService memberService;
 
-    // 회원가입 창으로 이동
-    @GetMapping("memberSave")
-    public String memberSaveForm() {
-        return "/boardPages/memberSave";
-    }
-
     // 회원가입 데이터 전달
     @PostMapping("/member/save")
     public String memberSave(@ModelAttribute MemberDTO memberDTO) {

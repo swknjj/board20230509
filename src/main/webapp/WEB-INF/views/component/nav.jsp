@@ -7,7 +7,7 @@
         <a href="memberSave">회원가입</a>
     </li>
     <li>
-        <a href="#">로그인</a>
+        <a href="memberLogin">로그인</a>
     </li>
     <li>
         <a href="#">글 목록</a>
