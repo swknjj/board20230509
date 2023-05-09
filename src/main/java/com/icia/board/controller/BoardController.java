@@ -48,14 +48,24 @@ public class BoardController {
             boardDTOList = boardService.searchList(page,type,q);
             pageDTO = boardService.pagingSearchParam(page,type,q);
         }
-        String loginEmail = (String) session.getAttribute("loginEmail");
-        MemberDTO memberDTO = memberService.findByEmail(loginEmail);
-        Long id = memberDTO.getId();
-        model.addAttribute("boardList",boardDTOList);
-        model.addAttribute("paging",pageDTO);
-        model.addAttribute("q",q);
-        model.addAttribute("type",type);
-        model.addAttribute("memberId",id);
+        if(session.getAttribute("loginEmail")!=null) {
+            String loginEmail = (String) session.getAttribute("loginEmail");
+            MemberDTO memberDTO = memberService.findByEmail(loginEmail);
+            Long id = memberDTO.getId();
+            model.addAttribute("boardList", boardDTOList);
+            model.addAttribute("paging", pageDTO);
+            model.addAttribute("q", q);
+            model.addAttribute("type", type);
+            model.addAttribute("memberId", id);
+        }else {
+            Long id = null;
+            model.addAttribute("boardList", boardDTOList);
+            model.addAttribute("paging", pageDTO);
+            model.addAttribute("q", q);
+            model.addAttribute("type", type);
+            model.addAttribute("memberId", id);
+
+        }
         return "/boardPages/boardList";
     }
 
