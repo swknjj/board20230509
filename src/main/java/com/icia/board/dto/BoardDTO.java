@@ -15,7 +15,7 @@ import java.util.List;
 public class BoardDTO {
     Long id;
     String boardTitle;
-    String boardWriter;
+    Long boardWriter;
     String boardContents;
     int boardHits;
     Timestamp boardCreatedDate;

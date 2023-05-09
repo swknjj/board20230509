@@ -27,8 +27,8 @@
     if (loginEmail.length != 0) {
         loginArea.innerHTML = "<a href='/mypage' style='color: black;'>" + loginEmail + "님 환영합니다</a>" + "<a href='/logout'>logout</a>";
         li_1.innerHTML = "<a href='/board/Save'>글 작성</a>"
-        li_2.innerHTML = "<a href='/'>글 목록</a>"
-        li_3.innerHTML = "<a href='/'>미완성</a>"
+        li_2.innerHTML = "<a href='/board/boardList'>글 목록</a>"
+        li_3.innerHTML = ""
     } else {
         loginArea.innerHTML = "<a href='/member/Login'>login</a>"
     }

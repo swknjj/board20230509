@@ -17,9 +17,8 @@
 
 #section {
     background-color: deeppink;
-    padding: 20px;
     height: 70%;
-    overflow-scrolling: auto;
+    overflow: scroll;
     text-align: center;
 }
 
@@ -47,4 +46,12 @@
 }
 #nav ul li.login-name {
     float: right;
+}
+table {
+    margin: auto;
+    border: 1px solid black;
+}
+table tr,th,td {
+    padding: 5px;
+    border: 1px solid black;
 }

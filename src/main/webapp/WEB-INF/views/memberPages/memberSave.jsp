@@ -55,7 +55,7 @@
         const memberEmailButtom = document.getElementById("member-email-bottom");
         $.ajax({
             type: "post",
-            url: "email-check",
+            url: "/email-check",
             data: {
                 "email_check": typingEmail
             },

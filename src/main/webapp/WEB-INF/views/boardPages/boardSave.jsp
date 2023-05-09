@@ -15,9 +15,22 @@
 <body>
 <%@include file="../component/header.jsp"%>
 <%@include file="../component/nav.jsp"%>
-<div id="section">
-
+<div id="section" style="text-align: center">
+    <h2>글 작성/등록</h2><br>
+    <form action="/board/Save" method="post" enctype="multipart/form-data">
+        <textarea name="boardTitle" placeholder="제목 입력" style="width: 100%; height: 30%"></textarea><br>
+        <textarea name="boardContents" placeholder="내용 입력" style="width: 100%; height: 50%"></textarea><br>
+        <input type="file" name="boardFile" multiple> <br>
+        <input type="submit" value="작성">
+        <button onclick="back()">취소</button>
+    </form>
 </div>
 <%@include file="../component/footer.jsp"%>
 </body>
+<script>
+    // 뒤로가기 버튼 함수
+    const back = () => {
+        location.href = "../../..";
+    }
+</script>
 </html>
