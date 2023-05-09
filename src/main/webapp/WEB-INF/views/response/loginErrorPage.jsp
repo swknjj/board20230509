@@ -10,8 +10,8 @@
 <head>
     <title>Title</title>
   <script>
-    alert("오류 발생")
-    location.href="/";
+    alert("로그인 실패")
+    location.href="../../..";
   </script>
 </head>
 <body>

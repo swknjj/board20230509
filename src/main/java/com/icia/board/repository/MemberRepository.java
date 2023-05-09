@@ -17,4 +17,8 @@ public class MemberRepository {
     public MemberDTO findByEmail(String email) {
         return sql.selectOne("Member.findByEmail",email);
     }
+
+    public MemberDTO memberLogin(MemberDTO memberDTO) {
+        return sql.selectOne("Member.memberLogin",memberDTO);
+    }
 }

@@ -4,12 +4,21 @@
 
 <mapper namespace="Member">
     <insert id="memberSave" parameterType="member">
-        insert into member_table (memberEmail,memberPassword,memberName,memberMobile)
-            values (#{memberEmail},#{memberPassword},#{memberName},#{memberMobile})
+        insert into member_table (memberEmail, memberPassword, memberName, memberMobile)
+        values (#{memberEmail}, #{memberPassword}, #{memberName}, #{memberMobile})
     </insert>
 
     <select id="findByEmail" parameterType="String" resultType="member">
-        select memberEmail from member_table where memberEmail=#{memberEmail}
+        select memberEmail
+        from member_table
+        where memberEmail = #{memberEmail}
+    </select>
+
+    <select id="memberLogin" parameterType="member" resultType="member">
+        select memberEmail, memberPassword
+        from member_table
+        where memberEmail = #{memberEmail}
+          and memberPassword = #{memberPassword}
     </select>
 
 </mapper>

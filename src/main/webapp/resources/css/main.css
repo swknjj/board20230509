@@ -12,7 +12,7 @@
 
 #nav {
     background-color: lightpink;
-    height: 20%;
+    height: 10%;
 }
 
 #section {
@@ -20,6 +20,7 @@
     padding: 20px;
     height: 70%;
     overflow-scrolling: auto;
+    text-align: center;
 }
 
 #footer {
@@ -43,4 +44,7 @@
     padding: 10px;
     text-decoration: none;
     color: red;
+}
+#nav ul li.login-name {
+    float: right;
 }

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class MemberController {
     @Autowired
@@ -18,10 +20,30 @@ public class MemberController {
     public String memberSave(@ModelAttribute MemberDTO memberDTO) {
         int result = memberService.memberSave(memberDTO);
         if (result == 1) {
-            return "/boardPages/memberList";
+            return "/boardPages/boardList";
         } else {
-            return "errorPage";
+            return "/response/saveErrorPage";
         }
+    }
+
+    // 멤버 로그인
+    @PostMapping("/member/login")
+    public String memberLogin(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+        MemberDTO member = memberService.memberLogin(memberDTO);
+        if(member != null){
+            session.setAttribute("loginEmail",memberDTO.getMemberEmail());
+            return "/boardPages/boardList";
+        }else {
+            return "/response/loginErrorPage";
+        }
+    }
+
+    // 로그아웃
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "/response/logout";
+
     }
 
 

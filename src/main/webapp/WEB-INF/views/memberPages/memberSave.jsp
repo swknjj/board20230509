@@ -46,7 +46,7 @@
 <script>
     // 뒤로가기 버튼 함수
     const back = () => {
-        location.href = "/";
+        location.href = "../../..";
     }
     // 이메일 중복 체크
     const emailCheck = () => {
@@ -94,7 +94,7 @@
             alert("비밀번호를 입력해주세요");
             password.focus();
             return false;
-        } else if (!(password.value.match(exp))){
+        } else if (!(password.value.match(exp))) {
             alert("비밀번호는 영문소문자 필수 , 5~10글자 이내로 완성해주세요");
             password.focus();
             return false;

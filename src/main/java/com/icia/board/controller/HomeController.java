@@ -12,14 +12,20 @@ public class HomeController {
     }
 
     // 회원가입 창으로 이동
-    @GetMapping("memberSave")
+    @GetMapping("/member/Save")
     public String memberSaveForm() {
-        return "/boardPages/memberSave";
+        return "/memberPages/memberSave";
     }
 
     // 로그인페이지로
-    @GetMapping("/memberLogin")
+    @GetMapping("/member/Login")
     public String memberLoginForm() {
-        return "memberLogin";
+        return "/memberPages/memberLogin";
+    }
+
+    // 글 작성 페이지로
+    @GetMapping("/board/Save")
+    public String boardSaveForm() {
+        return "/boardPages/boardSave";
     }
 }
