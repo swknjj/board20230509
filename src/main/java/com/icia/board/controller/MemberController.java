@@ -2,6 +2,7 @@ package com.icia.board.controller;
 
 import com.icia.board.dto.BoardDTO;
 import com.icia.board.dto.MemberDTO;
+import com.icia.board.dto.MemberprofileDTO;
 import com.icia.board.dto.PageDTO;
 import com.icia.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,9 +85,25 @@ public class MemberController {
             model.addAttribute("q", q);
             model.addAttribute("type", type);
             model.addAttribute("memberId", id);
-
         }
-
         return "/memberPages/memberList";
     }
+
+    // 내 정보 페이지로
+    @GetMapping("/member/mypage")
+    public String myPageForm(@ModelAttribute MemberDTO memberDTO,HttpSession session,Model model) {
+        String loginEmail = (String) session.getAttribute("loginEmail");
+        MemberDTO LoginDTO = memberService.findByEmail(loginEmail);
+            List<MemberprofileDTO> memberprofileDTOList = memberService.findFile(LoginDTO.getId());
+            model.addAttribute("LoginDTO",LoginDTO);
+            model.addAttribute("memberprofileDTO",memberprofileDTOList);
+        System.out.println(memberprofileDTOList.size());
+        return "/memberPages/memberMyPage";
+    }
+    @GetMapping("/member/delete")
+    public String memberDelete(@RequestParam("id") Long id) {
+        memberService.memberDelete(id);
+        return "redirect:/member/memberList";
+    }
 }
+

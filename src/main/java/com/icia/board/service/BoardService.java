@@ -1,11 +1,13 @@
 package com.icia.board.service;
 
-import com.icia.board.dto.BoardDTO;
-import com.icia.board.dto.PageDTO;
+import com.icia.board.dto.*;
 import com.icia.board.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +18,25 @@ public class BoardService {
     @Autowired
     BoardRepository boardRepository;
 
-    public void boardSave(BoardDTO boardDTO) {
-        boardRepository.boardSave(boardDTO);
+    public void boardSave(BoardDTO boardDTO) throws IOException {
+        if(boardDTO.getBoardProfile().get(0).isEmpty()){
+            boardDTO.setFileAttached(0);
+            boardRepository.boardSave(boardDTO);
+        }else {
+            boardDTO.setFileAttached(1);
+            BoardDTO dto = boardRepository.boardSave(boardDTO);
+            for(MultipartFile boardFile : boardDTO.getBoardProfile()) {
+                String originalFileName = boardFile.getOriginalFilename();
+                String storedFileName = System.currentTimeMillis()+"-"+originalFileName;
+                BoardFileDTO boardFileDTO = new BoardFileDTO();
+                boardFileDTO.setOriginalFileName(originalFileName);
+                boardFileDTO.setStoredFileName(storedFileName);
+                boardFileDTO.setBoardId(dto.getId());
+                String savePath = "D:\\signboard\\board\\" + storedFileName;
+                boardFile.transferTo(new File(savePath));
+                boardRepository.saveFile(boardFileDTO);
+            }
+        }
     }
 
     public List<BoardDTO> boardList(int page) {
@@ -38,9 +57,9 @@ public class BoardService {
         // 전체 글 갯수 조회
         int boardCount = boardRepository.boardCount();
         // 전체 페이지 갯수 계산
-        int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
+        int maxPage = (int)(Math.ceil((double) boardCount / pageLimit));
         // 시작 페이지 계산
-        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) + blockLimit;
+        int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         // 마지막 페이지 값 계산
         int endPage = startPage + blockLimit - 1;
         // 전체 페이지 갯수가 계산한 endPage보다 작을때는 endPage를 maxPage와 같게 세팅
@@ -94,5 +113,14 @@ public class BoardService {
         pageDTO.setEndPage(endPage);
         pageDTO.setStartPage(startPage);
         return pageDTO;
+    }
+
+    public BoardDTO boardDetail(Long boardId) {
+        BoardDTO boardDTO = boardRepository.boardDetail(boardId);
+        return boardDTO;
+    }
+
+    public void increase(Long boardId) {
+        boardRepository.increase(boardId);
     }
 }

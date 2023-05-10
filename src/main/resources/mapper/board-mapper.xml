@@ -3,9 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Board">
-    <insert id="boardSave" parameterType="board">
-        insert into board_table (boardTitle,boardWriter,boardContents)
-            values (#{boardTitle},#{boardWriter},#{boardContents})
+    <insert id="boardSave" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        insert into board_table (boardTitle,boardWriter,boardContents,fileAttached)
+            values (#{boardTitle},#{boardWriter},#{boardContents},#{fileAttached})
     </insert>
 
     <select id="boardList" parameterType="HashMap" resultType="board">
@@ -23,6 +23,19 @@
     <select id="boardSearchCount" parameterType="HashMap" resultType="Integer">
         select count(id) from board_table where #{type} like concat('%',#{q},'%')
     </select>
+
+    <select id="boardDetail" parameterType="Long" resultType="board">
+        select * from board_table where id=#{boardId}
+    </select>
+
+    <update id="increase" parameterType="Long">
+        update board_table set boardHits = boardHits+1 where id=#{boardId}
+    </update>
+
+    <insert id="saveFile" parameterType="boardFile">
+        insert into board_file_table (originalFileName,storedFileName,boardId)
+            values (#{originalFileName},#{storedFileName},#{boardId})
+    </insert>
 
 </mapper>
 

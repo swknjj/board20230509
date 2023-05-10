@@ -24,32 +24,33 @@ public class BoardController {
     MemberService memberService;
 
     @PostMapping("/board/Save")
-    public String boardSave(@ModelAttribute BoardDTO boardDTO, HttpSession session) {
+    public String boardSave(@ModelAttribute BoardDTO boardDTO, HttpSession session) throws Exception{
         String loginEmail = (String) session.getAttribute("loginEmail");
         MemberDTO memberDTO = memberService.findByEmail(loginEmail);
-        if(memberDTO != null){
+        if (memberDTO != null) {
             boardDTO.setBoardWriter(memberDTO.getId());
             boardService.boardSave(boardDTO);
             return "redirect:/board/boardList";
-        }else {
+        } else {
             return "/response/errorPage";
         }
     }
+
     @GetMapping("/board/boardList")
     public String boardList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                             @RequestParam(value = "q", required = false, defaultValue = "") String q,
                             @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
-                            @RequestParam(value = "memberId", required = false, defaultValue = "") Long id, Model model,HttpSession session) {
+                            @RequestParam(value = "memberId", required = false, defaultValue = "") Long id, Model model, HttpSession session) {
         List<BoardDTO> boardDTOList = null;
         PageDTO pageDTO = null;
-        if(q.equals("")){
+        if (q.equals("")) {
             boardDTOList = boardService.boardList(page);
             pageDTO = boardService.pagingParam(page);
-        }else {
-            boardDTOList = boardService.searchList(page,type,q);
-            pageDTO = boardService.pagingSearchParam(page,type,q);
+        } else {
+            boardDTOList = boardService.searchList(page, type, q);
+            pageDTO = boardService.pagingSearchParam(page, type, q);
         }
-        if(session.getAttribute("loginEmail")!=null) {
+        if (session.getAttribute("loginEmail") != null) {
             String loginEmail = (String) session.getAttribute("loginEmail");
             MemberDTO memberDTO = memberService.findByEmail(loginEmail);
             id = memberDTO.getId();
@@ -58,7 +59,7 @@ public class BoardController {
             model.addAttribute("q", q);
             model.addAttribute("type", type);
             model.addAttribute("memberId", id);
-        }else {
+        } else {
             id = null;
             model.addAttribute("boardList", boardDTOList);
             model.addAttribute("paging", pageDTO);
@@ -68,6 +69,18 @@ public class BoardController {
 
         }
         return "/boardPages/boardList";
+    }
+
+    @GetMapping("/board/detail")
+    public String boardDetail(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                              @RequestParam(value = "q", required = false, defaultValue = "") String q,
+                              @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
+                              @RequestParam(value = "memberId", required = false, defaultValue = "") Long id,@ModelAttribute BoardDTO boardDTO,Model model, HttpSession session) {
+        Long board_id = boardDTO.getId();
+        boardService.increase(board_id);
+        BoardDTO dto = boardService.boardDetail(board_id);
+        System.out.println("dto = " + dto);
+        return "/boardPages/boardDetail";
     }
 
 

@@ -47,4 +47,12 @@ public class MemberRepository {
     public int memberSearchCount(Map<String, Object> pagingParams) {
         return sql.selectOne("Member.searchCount",pagingParams);
     }
+
+    public List<MemberprofileDTO> findFile(Long id) {
+        return sql.selectList("Member.findFile",id);
+    }
+
+    public void memberDelete(Long id) {
+        sql.delete("Member.memberDelete",id);
+    }
 }

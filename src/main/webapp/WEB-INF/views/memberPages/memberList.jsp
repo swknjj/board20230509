@@ -36,14 +36,14 @@
                 <tr>
                     <td>${member.id}</td>
                     <td>
-                        <a href="/member/memberList?id=${board.id}&page=${paging.page}&q=${q}&type=${type}&memberId=${memberId}">${member.memberEmail}</a>
+                        <a href="/?id=${board.id}&page=${paging.page}&q=${q}&type=${type}&memberId=${memberId}">${member.memberEmail}</a>
                     </td>
                     <td>${member.memberPassword}</td>
                     <td>${member.memberName}</td>
                     <td>${member.memberMobile}</td>
-                    <td>${member.memberProfile}</td>
+                    <td>${member.fileAttached}</td>
                     <c:if test="${sessionScope.loginEmail eq 'admin'}">
-                        <td><a href="#">삭제</a></td>
+                        <td><a href="/member/delete?id=${member.id}">삭제</a></td>
                     </c:if>
                 </tr>
             </c:forEach>

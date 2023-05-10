@@ -32,10 +32,14 @@
         <input type="text" id="member-name" name="memberName"><br>
 
         <label for="member-mobile">전화번호 입력</label><br>
-        <input type="text" id="member-mobile" name="memberMobile"><br>
+        <input type="text" id="member-mobile" name="memberMobile" placeholder="형식 - 빼고 입력"><br>
 
         <label for="member-profile">프로필 사진</label><br>
-        <input type="file" id="member-profile" name="memberProfile"><br><br>
+        <input type="file" accept="image/*" name="memberProfile" id="member-profile"
+               multiple style="display: none"
+               onchange="javascript:document.getElementById('fileName').innerHTML =
+                                (this.value.replace(/c:\\fakepath\\/i,''))">
+        <img style="width: 100px;height: 100px;border: 1px solid black" id="preview-image"><br>
 
         <input type="submit" id="submit-button" disabled="disabled" value="회원가입">
         <button onclick="back()">취소</button>
@@ -86,6 +90,7 @@
         const name = document.getElementById("member-name");
         const mobile = document.getElementById("member-mobile");
         const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{5,10}$/;
+        const mobileExp = /^(?=.*[\d])[\d]{10,11}$/;
         if (email.value.length == 0) {
             alert("이메일을 입력해주세요");
             email.focus();
@@ -97,6 +102,10 @@
         } else if (!(password.value.match(exp))) {
             alert("비밀번호는 영문소문자 필수 , 5~10글자 이내로 완성해주세요");
             password.focus();
+            return false;
+        } else if (!(mobile.value.match(mobileExp))) {
+            alert("전화번호 형식에 맞게 -빼고 입력해주세요");
+            mobile.focus();
             return false;
         } else if (passwordCheck.value.length == 0) {
             alert("비밀번호 확인을 입력해주세요");
@@ -118,5 +127,22 @@
             return true;
         }
     }
+
+    // 프로필 사진이 입력받았을때
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader()
+            reader.onload = e => {
+                const previewImage = document.getElementById("preview-image")
+                previewImage.src = e.target.result
+            }
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    const memberProfile = document.getElementById("member-profile")
+    memberProfile.addEventListener("change", e => {
+        readImage(e.target)
+    })
 </script>
 </html>

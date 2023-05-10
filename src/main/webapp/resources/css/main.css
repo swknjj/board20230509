@@ -12,13 +12,12 @@
 
 #nav {
     background-color: lightpink;
-    height: 10%;
 }
 
 #section {
     background-color: aquamarine;
     height: 70%;
-    overflow: scroll;
+    /*overflow: scroll;*/
     text-align: center;
 }
 
@@ -47,6 +46,7 @@
 #nav ul li.login-name {
     float: right;
 }
+
 table {
     margin: auto;
     border: 1px solid black;

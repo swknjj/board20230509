@@ -34,12 +34,11 @@ public class MemberService {
                 memberprofileDTO.setOriginalFileName(originalFileName);
                 memberprofileDTO.setStoredFileName(storedFileName);
                 memberprofileDTO.setMemberId(dto.getId());
-                String savePath = "D:\\signboard_img\\" + storedFileName;
+                String savePath = "D:\\signboard\\board\\" + storedFileName;
                 memberFile.transferTo(new File(savePath));
                 memberRepository.saveFile(memberprofileDTO);
             }
         }
-
         return 1;
     }
 
@@ -67,11 +66,11 @@ public class MemberService {
         // 하단에 보여줄 페이지 번호 갯수
         int blockLimit = 5;
         // 전체 글 갯수 조회
-        int boardCount = memberRepository.memberCount();
+        int memberCount = memberRepository.memberCount();
         // 전체 페이지 갯수 계산
-        int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
+        int maxPage = (int)(Math.ceil((double) memberCount / pageLimit));
         // 시작 페이지 계산
-        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) + blockLimit;
+        int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         // 마지막 페이지 값 계산
         int endPage = startPage + blockLimit - 1;
         // 전체 페이지 갯수가 계산한 endPage보다 작을때는 endPage를 maxPage와 같게 세팅
@@ -124,5 +123,14 @@ public class MemberService {
         pageDTO.setEndPage(endPage);
         pageDTO.setStartPage(startPage);
         return pageDTO;
+    }
+
+    public List<MemberprofileDTO> findFile(Long id) {
+        List<MemberprofileDTO> memberprofileDTOList = memberRepository.findFile(id);
+        return memberprofileDTOList;
+    }
+
+    public void memberDelete(Long id) {
+        memberRepository.memberDelete(id);
     }
 }

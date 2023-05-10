@@ -34,4 +34,5 @@ public class HomeController {
 //    public String memberList() {
 //        return "/memberPages/memberList";
 //    }
+
 }
