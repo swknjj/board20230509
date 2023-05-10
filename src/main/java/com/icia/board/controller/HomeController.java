@@ -28,4 +28,10 @@ public class HomeController {
     public String boardSaveForm() {
         return "/boardPages/boardSave";
     }
+
+//    // 멤버리스트 페이지로
+//    @GetMapping("/member/memberList")
+//    public String memberList() {
+//        return "/memberPages/memberList";
+//    }
 }

@@ -17,5 +17,6 @@ public class MemberDTO {
     String memberPassword;
     String memberName;
     String memberMobile;
+    int fileAttached;
     List<MultipartFile> memberProfile;
 }

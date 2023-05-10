@@ -38,7 +38,8 @@ public class BoardController {
     @GetMapping("/board/boardList")
     public String boardList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                             @RequestParam(value = "q", required = false, defaultValue = "") String q,
-                            @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type, Model model,HttpSession session) {
+                            @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
+                            @RequestParam(value = "memberId", required = false, defaultValue = "") Long id, Model model,HttpSession session) {
         List<BoardDTO> boardDTOList = null;
         PageDTO pageDTO = null;
         if(q.equals("")){
@@ -51,14 +52,14 @@ public class BoardController {
         if(session.getAttribute("loginEmail")!=null) {
             String loginEmail = (String) session.getAttribute("loginEmail");
             MemberDTO memberDTO = memberService.findByEmail(loginEmail);
-            Long id = memberDTO.getId();
+            id = memberDTO.getId();
             model.addAttribute("boardList", boardDTOList);
             model.addAttribute("paging", pageDTO);
             model.addAttribute("q", q);
             model.addAttribute("type", type);
             model.addAttribute("memberId", id);
         }else {
-            Long id = null;
+            id = null;
             model.addAttribute("boardList", boardDTOList);
             model.addAttribute("paging", pageDTO);
             model.addAttribute("q", q);

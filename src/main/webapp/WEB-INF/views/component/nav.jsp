@@ -12,6 +12,9 @@
         <li id="li_3">
             <a href="/board/boardList">글 목록</a>
         </li>
+        <li id="li_4">
+            <a href="/member/memberList">회원 목록</a>
+        </li>
         <li class="login-name" id="login-area">
 
         </li>
@@ -23,12 +26,14 @@
     const li_1 = document.getElementById("li_1");
     const li_2 = document.getElementById("li_2");
     const li_3 = document.getElementById("li_3");
+    const li_4 = document.getElementById("li_4");
 
     if (loginEmail.length != 0) {
         loginArea.innerHTML = "<a href='/mypage' style='color: black;'>" + loginEmail + "님 환영합니다</a>" + "<a href='/logout'>logout</a>";
         li_1.innerHTML = "<a href='/board/Save'>글 작성</a>"
         li_2.innerHTML = "<a href='/board/boardList'>글 목록</a>"
-        li_3.innerHTML = ""
+        li_3.innerHTML = "<a href='/member/memberList'>회원 목록</a>"
+        li_4.innerHTML = "";
     } else {
         loginArea.innerHTML = "<a href='/member/Login'>login</a>"
     }

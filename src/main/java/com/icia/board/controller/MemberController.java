@@ -1,14 +1,20 @@
 package com.icia.board.controller;
 
+import com.icia.board.dto.BoardDTO;
 import com.icia.board.dto.MemberDTO;
+import com.icia.board.dto.PageDTO;
 import com.icia.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class MemberController {
@@ -17,7 +23,7 @@ public class MemberController {
 
     // 회원가입 데이터 전달
     @PostMapping("/member/save")
-    public String memberSave(@ModelAttribute MemberDTO memberDTO) {
+    public String memberSave(@ModelAttribute MemberDTO memberDTO) throws IOException {
         int result = memberService.memberSave(memberDTO);
         if (result == 1) {
             return "/boardPages/boardList";
@@ -46,5 +52,41 @@ public class MemberController {
 
     }
 
+    // 페이징 처리된 멤버리스트
+    @GetMapping("/member/memberList")
+    public String boardList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                            @RequestParam(value = "q", required = false, defaultValue = "") String q,
+                            @RequestParam(value = "type", required = false, defaultValue = "id") String type,
+                            @RequestParam(value = "memberId", required = false, defaultValue = "") Long id, Model model, HttpSession session) {
+        List<MemberDTO> memberDTOList = null;
+        PageDTO pageDTO = null;
 
+        if(q.equals("")){
+            memberDTOList = memberService.memberList(page);
+            pageDTO = memberService.pagingParam(page);
+        }else {
+            memberDTOList = memberService.searchList(page,type,q);
+            pageDTO = memberService.pagingSearchParam(page,type,q);
+        }
+        if(session.getAttribute("loginEmail")!=null) {
+            String loginEmail = (String) session.getAttribute("loginEmail");
+            MemberDTO memberDTO = memberService.findByEmail(loginEmail);
+            id = memberDTO.getId();
+            model.addAttribute("memberList", memberDTOList);
+            model.addAttribute("paging", pageDTO);
+            model.addAttribute("q", q);
+            model.addAttribute("type", type);
+            model.addAttribute("memberId", id);
+        }else {
+            id = null;
+            model.addAttribute("memberList", memberDTOList);
+            model.addAttribute("paging", pageDTO);
+            model.addAttribute("q", q);
+            model.addAttribute("type", type);
+            model.addAttribute("memberId", id);
+
+        }
+
+        return "/memberPages/memberList";
+    }
 }

@@ -19,6 +19,7 @@
 <%@include file="../component/header.jsp" %>
 <%@include file="../component/nav.jsp" %>
 <div id="section">
+    <h2>게시글 리스트</h2>
     <div class="container" id="list">
         <table class="table table-striped table-hover text-center">
             <tr>
@@ -28,16 +29,14 @@
                 <th>조회수</th>
                 <th>작성 시간</th>
                 <th>파일 여부</th>
-                <c:if test="${board.boardWriter eq memberId}">
                 <th>수정</th>
-                    <th>삭제</th>
-                </c:if>
+                <th>삭제</th>
             </tr>
             <c:forEach items="${boardList}" var="board">
                 <tr>
                     <td>${board.id}</td>
                     <td>
-                        <a href="/board?id=${board.id}&page=${paging.page}&q=${q}&type=${type}">${board.boardTitle}</a>
+                        <a href="/board?id=${board.id}&page=${paging.page}&q=${q}&type=${type}&memberId=${memberId}">${board.boardTitle}</a>
                     </td>
                     <td>${board.boardWriter}</td>
                     <td>${board.boardHits}</td>
@@ -66,7 +65,8 @@
                 <%-- 1페이지가 아닌 경우에는 [이전]을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="/board/boardList?page=${paging.page-1}&q=${q}&type=${type}">[이전]</a>
+                        <a class="page-link"
+                           href="/board/boardList?page=${paging.page-1}&q=${q}&type=${type}&memberId=${memberId}">[이전]</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -83,7 +83,8 @@
 
                     <c:otherwise>
                         <li class="page-item">
-                            <a class="page-link" href="/board/boardList?page=${i}&q=${q}&type=${type}">${i}</a>
+                            <a class="page-link"
+                               href="/board/boardList?page=${i}&q=${q}&type=${type}&memberId=${memberId}">${i}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -97,7 +98,8 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="/board/boardList?page=${paging.page+1}&q=${q}&type=${type}">[다음]</a>
+                        <a class="page-link"
+                           href="/board/boardList?page=${paging.page+1}&q=${q}&type=${type}&memberId=${memberId}">[다음]</a>
                     </li>
                 </c:otherwise>
             </c:choose>

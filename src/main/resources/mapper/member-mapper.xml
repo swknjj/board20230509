@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Member">
-    <insert id="memberSave" parameterType="member">
+    <insert id="memberSave" parameterType="member" useGeneratedKeys="true" keyProperty="id">
         insert into member_table (memberEmail, memberPassword, memberName, memberMobile)
         values (#{memberEmail}, #{memberPassword}, #{memberName}, #{memberMobile})
     </insert>
@@ -19,6 +19,27 @@
         from member_table
         where memberEmail = #{memberEmail}
           and memberPassword = #{memberPassword}
+    </select>
+
+    <insert id="saveFile" parameterType="memberFile">
+        insert into member_memberprofile_table (originalFileName,storedFileName,memberId)
+            values (#{originalFileName},#{storedFileName},#{memberId})
+    </insert>
+
+    <select id="memberList" parameterType="HashMap" resultType="member">
+        select * from member_table order by id desc limit #{start},#{limit}
+    </select>
+
+    <select id="memberCount" resultType="Integer">
+        select count(id) from member_table
+    </select>
+
+    <select id="search" parameterType="HashMap" resultType="member">
+        select * from member_table where #{type} like concat('%',#{q},'%') order by id desc limit #{start},#{limit}
+    </select>
+
+    <select id="searchCount" parameterType="HashMap" resultType="Integer">
+        select count(id) from member_table where #{type} like concat('%',#{q},'%')
     </select>
 
 </mapper>
