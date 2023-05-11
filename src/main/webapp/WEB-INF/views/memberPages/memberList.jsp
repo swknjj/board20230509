@@ -21,6 +21,11 @@
 <%@include file="../component/nav.jsp" %>
 <div id="section">
     <h2>회원 리스트</h2>
+    <c:choose>
+    <c:when test="${memberList eq []}">
+        <h3>회원이 없습니다</h3>
+    </c:when>
+    <c:otherwise>
     <div class="container" id="list">
         <table class="table table-striped table-hover text-center">
             <tr>
@@ -32,7 +37,9 @@
                 <th>프로필사진</th>
                 <th>삭제</th>
             </tr>
+
             <c:forEach items="${memberList}" var="member">
+                <c:if test="member.memberEmail eq 'admin'">
                 <tr>
                     <td>${member.id}</td>
                     <td>
@@ -46,6 +53,7 @@
                         <td><a href="/member/delete?id=${member.id}">삭제</a></td>
                     </c:if>
                 </tr>
+                </c:if>
             </c:forEach>
         </table>
     </div>
@@ -101,7 +109,34 @@
             </c:choose>
         </ul>
     </div>
+    </c:otherwise>
+    </c:choose>
+    <div class="container" id="search-area">
+        <form action="/member/memberList" method="get">
+            <select name="type" id="typeSelect">
+                <option value="" selected disabled hidden>선택해주세요</option>
+                <option value="id">id</option>
+                <option value="memberEmail">이메일</option>
+                <option value="memberName">이름</option>
+                <option value="memberMobile">전화번호</option>
+            </select>
+            <input type="text" name="q" id="searchInput" placeholder="검색어를 입력하세요" disabled="disabled">
+            <input type="submit" value="검색">
+        </form>
+    </div>
 </div>
 <%@include file="../component/footer.jsp" %>
 </body>
+<script>
+    const typeSelect = document.getElementById("typeSelect");
+    const searchInput = document.getElementById("searchInput");
+
+    typeSelect.addEventListener("change", function() {
+        if (typeSelect.value === "") {
+            searchInput.disabled = true;
+        } else {
+            searchInput.disabled = false;
+        }
+    });
+</script>
 </html>

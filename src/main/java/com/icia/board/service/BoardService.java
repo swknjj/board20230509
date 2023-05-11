@@ -127,4 +127,9 @@ public class BoardService {
     public void boardDelete(Long boardid) {
         boardRepository.boardDelete(boardid);
     }
+
+    public List<BoardFileDTO> findFile(Long id) {
+        List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(id);
+        return boardFileDTOList;
+    }
 }

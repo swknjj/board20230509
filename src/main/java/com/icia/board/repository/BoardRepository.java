@@ -51,4 +51,8 @@ public class BoardRepository {
     public void boardDelete(Long boardid) {
         sql.delete("Board.boardDelete",boardid);
     }
+
+    public List<BoardFileDTO> findFile(Long id) {
+        return sql.selectList("Board.findFile",id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.icia.board.controller;
 
+import com.icia.board.dto.MemberDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,17 +27,7 @@ public class HomeController {
         return "/memberPages/memberLogin";
     }
 
-    // 글 작성 페이지로
-    @GetMapping("/board/Save")
-    public String boardSaveForm(HttpSession session, Model model) {
-        String email = (String) session.getAttribute("loginEmail");
-        if(email!=null){
-            model.addAttribute("loginEmail",email);
-        }else {
-            model.addAttribute("loginEmail","");
-        }
-        return "/boardPages/boardSave";
-    }
+
 
 //    // 멤버리스트 페이지로
 //    @GetMapping("/member/memberList")

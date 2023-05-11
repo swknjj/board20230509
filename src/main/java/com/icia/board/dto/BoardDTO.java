@@ -15,10 +15,11 @@ import java.util.List;
 public class BoardDTO {
     Long id;
     String boardTitle;
-    Long boardWriter;
+    String boardWriter;
     String boardContents;
     int boardHits;
     Timestamp boardCreatedDate;
     int fileAttached;
+    int memberId;
     List<MultipartFile> boardProfile;
 }

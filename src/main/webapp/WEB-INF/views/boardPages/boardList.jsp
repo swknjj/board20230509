@@ -50,7 +50,7 @@
                                         pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
                     </td>
                     <td>${board.fileAttached}</td>
-                    <c:if test="${board.boardWriter eq memberId}">
+                    <c:if test="${board.memberId eq memberId}">
                         <th><a href="#">수정</a></th>
                         <th><a href="/board/delete?page=${i}&q=${q}&type=${type}&memberId=${memberId}&id=${board.id}">삭제</a></th>
                     </c:if>
@@ -116,7 +116,6 @@
         <form action="/board/boardList" method="get">
             <select name="type" id="typeSelect">
                 <option value="" selected disabled hidden>선택해주세요</option>
-                <option value="">전체</option>
                 <option value="boardTitle">제목</option>
                 <option value="boardWriter">작성자</option>
                 <option value="boardContents">내용</option>

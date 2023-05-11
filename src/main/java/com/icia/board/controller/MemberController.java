@@ -61,7 +61,6 @@ public class MemberController {
                             @RequestParam(value = "memberId", required = false, defaultValue = "") Long id, Model model, HttpSession session) {
         List<MemberDTO> memberDTOList = null;
         PageDTO pageDTO = null;
-
         if(q.equals("")){
             memberDTOList = memberService.memberList(page);
             pageDTO = memberService.pagingParam(page);

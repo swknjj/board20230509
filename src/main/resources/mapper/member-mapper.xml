@@ -46,7 +46,7 @@
     <select id="search" parameterType="HashMap" resultType="member">
         select *
         from member_table
-        where #{type} like concat('%', #{q}, '%')
+        where ${type} like concat('%', #{q}, '%')
         order by id desc limit #{start}, #{limit}
     </select>
 

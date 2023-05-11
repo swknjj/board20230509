@@ -23,12 +23,21 @@
     <form action="#" method="post">
         작성자 = ${BoardDTO.boardWriter}<br>
         조회수 = ${BoardDTO.boardHits}<br>
-        작성시간 = ${BoardDTO.boardCreatedDate}<br>
+        작성시간 = <fmt:formatDate value="${BoardDTO.boardCreatedDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate><br>
         <label for="board-title">글 제목</label><br>
         <textarea name="boardTitle" id="board-title" style="width: 50%; height: 10%">${BoardDTO.boardTitle}</textarea><br>
 
         <label for="board-contents">글 내용</label><br>
         <textarea name="boardContents" id="board-contents" placeholder="내용 입력" style="width: 50%; height: 30%">${BoardDTO.boardContents}</textarea><br>
+        <c:if test="${BoardDTO.fileAttached == 1}">
+            <div id="member-profile">
+                <c:forEach items="${boardFileDTO}" var="boardFile">
+                    <img src="${pageContext.request.contextPath}/upload/${boardFile.storedFileName}"
+                         alt="" width="100" height="100">
+                </c:forEach>
+            </div>
+        </c:if>
+
 </form>
 </div>
 <%@include file="../component/footer.jsp" %>

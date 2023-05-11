@@ -1,6 +1,7 @@
 package com.icia.board.controller;
 
 import com.icia.board.dto.BoardDTO;
+import com.icia.board.dto.BoardFileDTO;
 import com.icia.board.dto.MemberDTO;
 import com.icia.board.dto.PageDTO;
 import com.icia.board.service.BoardService;
@@ -23,12 +24,24 @@ public class BoardController {
     @Autowired
     MemberService memberService;
 
+    // 글 작성 페이지로
+    @GetMapping("/board/Save")
+    public String boardSaveForm(HttpSession session, Model model, MemberDTO memberDTO) {
+        String email = (String) session.getAttribute("loginEmail");
+        MemberDTO dto = memberService.findByEmail(email);
+        if(email!=null){
+            model.addAttribute("member",dto);
+        }else {
+            model.addAttribute("member","");
+        }
+        return "/boardPages/boardSave";
+    }
+
     @PostMapping("/board/Save")
     public String boardSave(@ModelAttribute BoardDTO boardDTO, HttpSession session) throws Exception{
         String loginEmail = (String) session.getAttribute("loginEmail");
         MemberDTO memberDTO = memberService.findByEmail(loginEmail);
         if (memberDTO != null) {
-            boardDTO.setBoardWriter(memberDTO.getId());
             boardService.boardSave(boardDTO);
             return "redirect:/board/boardList";
         } else {
@@ -75,15 +88,17 @@ public class BoardController {
     public String boardDetail(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                               @RequestParam(value = "q", required = false, defaultValue = "") String q,
                               @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
-                              @RequestParam(value = "memberId", required = false, defaultValue = "") Long id,@ModelAttribute BoardDTO boardDTO,Model model, PageDTO pageDTO) {
+                              @RequestParam(value = "memberId", required = false, defaultValue = "") Long id,
+                              @ModelAttribute BoardDTO boardDTO,Model model, PageDTO pageDTO) {
         boardService.increase(boardDTO.getId());
         BoardDTO dto = boardService.boardDetail(boardDTO.getId());
+        List<BoardFileDTO> boardFileDTOList = boardService.findFile(boardDTO.getId());
+        model.addAttribute("boardFileDTO",boardFileDTOList);
         if (q.equals("")) {
             pageDTO = boardService.pagingParam(page);
         } else {
             pageDTO = boardService.pagingSearchParam(page, type, q);
         }
-        System.out.println(dto);
         model.addAttribute("paging", pageDTO);
         model.addAttribute("q", q);
         model.addAttribute("type", type);
