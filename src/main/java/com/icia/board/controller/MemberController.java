@@ -27,7 +27,7 @@ public class MemberController {
     public String memberSave(@ModelAttribute MemberDTO memberDTO) throws IOException {
         int result = memberService.memberSave(memberDTO);
         if (result == 1) {
-            return "/boardPages/boardList";
+            return "redirect:/board/boardList";
         } else {
             return "/response/saveErrorPage";
         }
@@ -96,13 +96,28 @@ public class MemberController {
             List<MemberprofileDTO> memberprofileDTOList = memberService.findFile(LoginDTO.getId());
             model.addAttribute("LoginDTO",LoginDTO);
             model.addAttribute("memberprofileDTO",memberprofileDTOList);
-        System.out.println(memberprofileDTOList.size());
         return "/memberPages/memberMyPage";
     }
     @GetMapping("/member/delete")
     public String memberDelete(@RequestParam("id") Long id) {
         memberService.memberDelete(id);
         return "redirect:/member/memberList";
+    }
+    @PostMapping("/member/update")
+    public String memberUpdate(@ModelAttribute MemberDTO memberDTO, HttpSession session,Model model) {
+        memberService.memberUpdate(memberDTO);
+        session.setAttribute("loginEmail",memberDTO.getMemberEmail());
+        MemberDTO dto = memberService.findById(memberDTO.getId());
+        List<MemberprofileDTO> memberprofileDTOList = memberService.findFile(memberDTO.getId());
+        model.addAttribute("memberprofileDTO",memberprofileDTOList);
+        model.addAttribute("LoginDTO",dto);
+        return "/memberPages/memberMyPage";
+    }
+    @GetMapping("/member/outing")
+    public String memberOuting(@RequestParam("id")Long id,HttpSession session) {
+        memberService.memberDelete(id);
+        session.invalidate();
+        return "/index";
     }
 }
 

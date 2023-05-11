@@ -133,4 +133,13 @@ public class MemberService {
     public void memberDelete(Long id) {
         memberRepository.memberDelete(id);
     }
+
+    public void memberUpdate(MemberDTO memberDTO) {
+        memberRepository.memberUpdate(memberDTO);
+    }
+
+    public MemberDTO findById(Long id) {
+        MemberDTO memberDTO = memberRepository.findById(id);
+        return memberDTO;
+    }
 }

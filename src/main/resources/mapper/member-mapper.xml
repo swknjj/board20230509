@@ -4,8 +4,8 @@
 
 <mapper namespace="Member">
     <insert id="memberSave" parameterType="member" useGeneratedKeys="true" keyProperty="id">
-        insert into member_table (memberEmail, memberPassword, memberName, memberMobile,fileAttached)
-        values (#{memberEmail}, #{memberPassword}, #{memberName}, #{memberMobile},#{fileAttached})
+        insert into member_table (memberEmail, memberPassword, memberName, memberMobile, fileAttached)
+        values (#{memberEmail}, #{memberPassword}, #{memberName}, #{memberMobile}, #{fileAttached})
     </insert>
 
     <select id="findByEmail" parameterType="String" resultType="member">
@@ -63,7 +63,22 @@
     </select>
 
     <delete id="memberDelete" parameterType="Long">
-        delete from member_table where id=#{id}
+        delete
+        from member_table
+        where id = #{id}
     </delete>
+
+    <update id="memberUpdate" parameterType="member">
+        update member_table
+        set memberEmail= #{memberEmail},
+            memberPassword = #{memberPassword},
+            memberName = #{memberName},
+            memberMobile = #{memberMobile}
+        where id = #{id}
+    </update>
+
+    <select id="findById" parameterType="Long" resultType="member">
+        select * from member_table where id=#{id};
+    </select>
 
 </mapper>

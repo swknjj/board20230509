@@ -22,94 +22,94 @@
 <div id="section">
     <h2>회원 리스트</h2>
     <c:choose>
-    <c:when test="${memberList eq []}">
-        <h3>회원이 없습니다</h3>
-    </c:when>
-    <c:otherwise>
-    <div class="container" id="list">
-        <table class="table table-striped table-hover text-center">
-            <tr>
-                <th>id</th>
-                <th>이메일</th>
-                <th>비밀번호</th>
-                <th>이름</th>
-                <th>전화번호</th>
-                <th>프로필사진</th>
-                <th>삭제</th>
-            </tr>
+        <c:when test="${memberList eq []}">
+            <h3>회원이 없습니다</h3>
+        </c:when>
+        <c:otherwise>
+            <div class="container" id="list">
+                <table class="table table-striped table-hover text-center">
+                    <tr>
+                        <th>id</th>
+                        <th>이메일</th>
+                        <th>비밀번호</th>
+                        <th>이름</th>
+                        <th>전화번호</th>
+                        <th>프로필사진</th>
+                        <th>삭제</th>
+                    </tr>
 
-            <c:forEach items="${memberList}" var="member">
-                <c:if test="member.memberEmail eq 'admin'">
-                <tr>
-                    <td>${member.id}</td>
-                    <td>
-                        <a href="/?id=${board.id}&page=${paging.page}&q=${q}&type=${type}&memberId=${memberId}">${member.memberEmail}</a>
-                    </td>
-                    <td>${member.memberPassword}</td>
-                    <td>${member.memberName}</td>
-                    <td>${member.memberMobile}</td>
-                    <td>${member.fileAttached}</td>
-                    <c:if test="${sessionScope.loginEmail eq 'admin'}">
-                        <td><a href="/member/delete?id=${member.id}">삭제</a></td>
-                    </c:if>
-                </tr>
-                </c:if>
-            </c:forEach>
-        </table>
-    </div>
-    <div class="container">
-        <ul class="pagination justify-content-center">
-            <c:choose>
-                <%-- 현재 페이지가 1페이지면 이전 글자만 보여줌 --%>
-                <c:when test="${paging.page<=1}">
-                    <li class="page-item disabled">
-                        <a class="page-link">[이전]</a>
-                    </li>
-                </c:when>
-                <%-- 1페이지가 아닌 경우에는 [이전]을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
-                <c:otherwise>
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="/member/memberList?page=${paging.page-1}&q=${q}&type=${type}&memberId=${memberId}">[이전]</a>
-                    </li>
-                </c:otherwise>
-            </c:choose>
+                    <c:forEach items="${memberList}" var="member">
+                        <c:if test="${sessionScope.loginEmail eq 'admin'}">
+                            <c:if test="${member.memberEmail != 'admin'}">
+                            <tr>
+                                <td>${member.id}</td>
+                                <td>
+                                    <a href="/member/memberList/?id=${member.id}&page=${paging.page}&q=${q}&type=${type}&memberId=${memberId}">${member.memberEmail}</a>
+                                </td>
+                                <td>${member.memberPassword}</td>
+                                <td>${member.memberName}</td>
+                                <td>${member.memberMobile}</td>
+                                <td>${member.fileAttached}</td>
+                                <td><a href="/member/delete?id=${member.id}">삭제</a></td>
+                            </tr>
+                            </c:if>
+                        </c:if>
+                    </c:forEach>
+                </table>
+            </div>
+            <div class="container">
+                <ul class="pagination justify-content-center">
+                    <c:choose>
+                        <%-- 현재 페이지가 1페이지면 이전 글자만 보여줌 --%>
+                        <c:when test="${paging.page<=1}">
+                            <li class="page-item disabled">
+                                <a class="page-link">[이전]</a>
+                            </li>
+                        </c:when>
+                        <%-- 1페이지가 아닌 경우에는 [이전]을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="/member/memberList?page=${paging.page-1}&q=${q}&type=${type}&memberId=${memberId}">[이전]</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
 
-            <%--  for(int i=startPage; i<=endPage; i++)      --%>
-            <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="i" step="1">
-                <c:choose>
-                    <%-- 요청한 페이지에 있는 경우 현재 페이지 번호는 텍스트만 보이게 --%>
-                    <c:when test="${i eq paging.page}">
-                        <li class="page-item active">
-                            <a class="page-link">${i}</a>
-                        </li>
-                    </c:when>
+                        <%--  for(int i=startPage; i<=endPage; i++)      --%>
+                    <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="i" step="1">
+                        <c:choose>
+                            <%-- 요청한 페이지에 있는 경우 현재 페이지 번호는 텍스트만 보이게 --%>
+                            <c:when test="${i eq paging.page}">
+                                <li class="page-item active">
+                                    <a class="page-link">${i}</a>
+                                </li>
+                            </c:when>
 
-                    <c:otherwise>
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="/member/memberList?page=${i}&q=${q}&type=${type}&memberId=${memberId}">${i}</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
+                            <c:otherwise>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="/member/memberList?page=${i}&q=${q}&type=${type}&memberId=${memberId}">${i}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
 
-            <c:choose>
-                <c:when test="${paging.page>=paging.maxPage}">
-                    <li class="page-item disabled">
-                        <a class="page-link">[다음]</a>
-                    </li>
-                </c:when>
-                <c:otherwise>
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="/member/memberList?page=${paging.page+1}&q=${q}&type=${type}&memberId=${memberId}">[다음]</a>
-                    </li>
-                </c:otherwise>
-            </c:choose>
-        </ul>
-    </div>
-    </c:otherwise>
+                    <c:choose>
+                        <c:when test="${paging.page>=paging.maxPage}">
+                            <li class="page-item disabled">
+                                <a class="page-link">[다음]</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="/member/memberList?page=${paging.page+1}&q=${q}&type=${type}&memberId=${memberId}">[다음]</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
+        </c:otherwise>
     </c:choose>
     <div class="container" id="search-area">
         <form action="/member/memberList" method="get">
@@ -131,7 +131,7 @@
     const typeSelect = document.getElementById("typeSelect");
     const searchInput = document.getElementById("searchInput");
 
-    typeSelect.addEventListener("change", function() {
+    typeSelect.addEventListener("change", function () {
         if (typeSelect.value === "") {
             searchInput.disabled = true;
         } else {

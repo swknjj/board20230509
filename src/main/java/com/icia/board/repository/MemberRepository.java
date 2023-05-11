@@ -55,4 +55,13 @@ public class MemberRepository {
     public void memberDelete(Long id) {
         sql.delete("Member.memberDelete",id);
     }
+
+    public void memberUpdate(MemberDTO memberDTO) {
+        sql.update("Member.memberUpdate",memberDTO);
+    }
+
+    public MemberDTO findById(Long id) {
+        return sql.selectOne("Member.findById",id);
+
+    }
 }

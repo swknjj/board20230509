@@ -24,4 +24,6 @@ public class ajaxController {
             return new ResponseEntity<>(memberDTO, HttpStatus.CONFLICT);
         }
     }
+
+
 }
