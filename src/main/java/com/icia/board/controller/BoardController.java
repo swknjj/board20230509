@@ -76,18 +76,19 @@ public class BoardController {
                               @RequestParam(value = "q", required = false, defaultValue = "") String q,
                               @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
                               @RequestParam(value = "memberId", required = false, defaultValue = "") Long id,@ModelAttribute BoardDTO boardDTO,Model model, PageDTO pageDTO) {
-        Long board_id = boardDTO.getId();
-        boardService.increase(board_id);
-        BoardDTO dto = boardService.boardDetail(board_id);
+        boardService.increase(boardDTO.getId());
+        BoardDTO dto = boardService.boardDetail(boardDTO.getId());
         if (q.equals("")) {
             pageDTO = boardService.pagingParam(page);
         } else {
             pageDTO = boardService.pagingSearchParam(page, type, q);
         }
+        System.out.println(dto);
         model.addAttribute("paging", pageDTO);
         model.addAttribute("q", q);
         model.addAttribute("type", type);
         model.addAttribute("memberId", id);
+        model.addAttribute("BoardDTO",dto);
         return "/boardPages/boardDetail";
     }
 

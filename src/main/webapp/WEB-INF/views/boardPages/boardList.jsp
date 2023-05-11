@@ -20,6 +20,11 @@
 <%@include file="../component/nav.jsp" %>
 <div id="section">
     <h2>게시글 리스트</h2>
+    <c:choose>
+        <c:when test="${boardList eq []}">
+            <h3>작성된 글이 없습니다</h3>
+        </c:when>
+        <c:otherwise>
     <div class="container" id="list">
         <table class="table table-striped table-hover text-center">
             <tr>
@@ -104,6 +109,21 @@
                 </c:otherwise>
             </c:choose>
         </ul>
+    </div>
+        </c:otherwise>
+    </c:choose>
+    <div class="container" id="search-area">
+        <form action="/board/boardList" method="get">
+            <select name="type" required>
+                <option value="" disabled hidden>선택해주세요</option>
+                <option value="">전체</option>
+                <option value="boardTitle">제목</option>
+                <option value="boardWriter">작성자</option>
+                <option value="boardContents">내용</option>
+            </select>
+            <input type="text" name="q" placeholder="검색어를 입력하세요">
+            <input type="submit" value="검색">
+        </form>
     </div>
 </div>
 <%@include file="../component/footer.jsp" %>
