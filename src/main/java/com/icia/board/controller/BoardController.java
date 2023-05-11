@@ -88,23 +88,21 @@ public class BoardController {
     public String boardDetail(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                               @RequestParam(value = "q", required = false, defaultValue = "") String q,
                               @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
-                              @RequestParam(value = "memberId", required = false, defaultValue = "") Long id,
-                              @ModelAttribute BoardDTO boardDTO,Model model, PageDTO pageDTO) {
-        boardService.increase(boardDTO.getId());
-        BoardDTO dto = boardService.boardDetail(boardDTO.getId());
-        List<BoardFileDTO> boardFileDTOList = boardService.findFile(boardDTO.getId());
-        model.addAttribute("boardFileDTO",boardFileDTOList);
-        if (q.equals("")) {
-            pageDTO = boardService.pagingParam(page);
-        } else {
-            pageDTO = boardService.pagingSearchParam(page, type, q);
-        }
-        model.addAttribute("paging", pageDTO);
-        model.addAttribute("q", q);
-        model.addAttribute("type", type);
-        model.addAttribute("memberId", id);
-        model.addAttribute("BoardDTO",dto);
-        return "/boardPages/boardDetail";
+                              @ModelAttribute BoardDTO boardDTO,Model model, PageDTO pageDTO,HttpSession session) {
+            boardService.increase(boardDTO.getId());
+            BoardDTO dto = boardService.boardDetail(boardDTO.getId());
+            List<BoardFileDTO> boardFileDTOList = boardService.findFile(boardDTO.getId());
+            model.addAttribute("boardFileDTO", boardFileDTOList);
+            if (q.equals("")) {
+                pageDTO = boardService.pagingParam(page);
+            } else {
+                pageDTO = boardService.pagingSearchParam(page, type, q);
+            }
+            model.addAttribute("paging", pageDTO);
+            model.addAttribute("q", q);
+            model.addAttribute("type", type);
+            model.addAttribute("BoardDTO", dto);
+            return "/boardPages/boardDetail";
     }
 
     @GetMapping("/board/delete")
