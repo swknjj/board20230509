@@ -22,15 +22,14 @@
 <%@include file="../component/nav.jsp" %>
 <div id="section">
     <h2>글 상세보기</h2>
-    <form action="#" method="post">
         작성자 = ${BoardDTO.boardWriter}<br>
         조회수 = ${BoardDTO.boardHits}<br>
         작성시간 = <fmt:formatDate value="${BoardDTO.boardCreatedDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate><br>
         <label for="board-title">글 제목</label><br>
-        <textarea name="boardTitle" id="board-title" style="width: 50%; height: 10%">${BoardDTO.boardTitle}</textarea><br>
+        <textarea name="boardTitle" id="board-title" style="width: 50%; height: 10%" readonly>${BoardDTO.boardTitle}</textarea><br>
 
         <label for="board-contents">글 내용</label><br>
-        <textarea name="boardContents" id="board-contents" placeholder="내용 입력" style="width: 50%; height: 30%">${BoardDTO.boardContents}</textarea><br>
+        <textarea name="boardContents" id="board-contents" placeholder="내용 입력" style="width: 50%; height: 30%" readonly>${BoardDTO.boardContents}</textarea><br>
         <c:if test="${BoardDTO.fileAttached == 1}">
             <div id="member-profile">
                 <c:forEach items="${boardFileDTO}" var="boardFile">
@@ -41,15 +40,16 @@
         </c:if>
 
         <button onclick="board_list()">목록</button>
-
+        <c:if test="${sessionScope.loginEmail != null}">
         <div id="comment-write-area">
-            <input type="text" id="comment-writer" value="${BoardDTO.boardWriter}">
+            <input type="text" id="comment-writer" value="${sessionScope.loginEmail}" readonly>
             <input type="text" id="comment-contents" placeholder="댓글 내용">
             <button onclick="comment_write()">댓글작성</button>
         </div>
+        </c:if>
         <div id="comment-list">
             <c:choose>
-                <c:when test="${commentList == null}">
+                <c:when test="${commentList.size() eq 0}">
                     <h2>작성된 댓글이 없습니다.</h2>
                 </c:when>
                 <c:otherwise>
@@ -74,7 +74,6 @@
                 </c:otherwise>
             </c:choose>
         </div>
-</form>
 </div>
 <%@include file="../component/footer.jsp" %>
 </body>
@@ -111,7 +110,7 @@
                 }
                 output += "</table>";
                 result.innerHTML = output;
-                document.getElementById("comment-writer").value = "";
+                document.getElementById("comment-writer").value = "${sessionScope.loginEmail}";
                 document.getElementById("comment-contents").value = "";
             },
             error: function () {

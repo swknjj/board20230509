@@ -19,15 +19,15 @@ public class BoardService {
     BoardRepository boardRepository;
 
     public void boardSave(BoardDTO boardDTO) throws IOException {
-        if(boardDTO.getBoardProfile().get(0).isEmpty()){
+        if (boardDTO.getBoardProfile().get(0).isEmpty()) {
             boardDTO.setFileAttached(0);
             boardRepository.boardSave(boardDTO);
-        }else {
+        } else {
             boardDTO.setFileAttached(1);
             BoardDTO dto = boardRepository.boardSave(boardDTO);
-            for(MultipartFile boardFile : boardDTO.getBoardProfile()) {
+            for (MultipartFile boardFile : boardDTO.getBoardProfile()) {
                 String originalFileName = boardFile.getOriginalFilename();
-                String storedFileName = System.currentTimeMillis()+"-"+originalFileName;
+                String storedFileName = System.currentTimeMillis() + "-" + originalFileName;
                 BoardFileDTO boardFileDTO = new BoardFileDTO();
                 boardFileDTO.setOriginalFileName(originalFileName);
                 boardFileDTO.setStoredFileName(storedFileName);
@@ -57,9 +57,9 @@ public class BoardService {
         // 전체 글 갯수 조회
         int boardCount = boardRepository.boardCount();
         // 전체 페이지 갯수 계산
-        int maxPage = (int)(Math.ceil((double) boardCount / pageLimit));
+        int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
         // 시작 페이지 계산
-        int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
+        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         // 마지막 페이지 값 계산
         int endPage = startPage + blockLimit - 1;
         // 전체 페이지 갯수가 계산한 endPage보다 작을때는 endPage를 maxPage와 같게 세팅
@@ -76,12 +76,12 @@ public class BoardService {
 
     public List<BoardDTO> searchList(int page, String type, String q) {
         int pageLimit = 5;
-        int pagingStart = (page-1)*pageLimit;
+        int pagingStart = (page - 1) * pageLimit;
         Map<String, Object> pagingParams = new HashMap<>();
-        pagingParams.put("start",pagingStart);
-        pagingParams.put("limit",pageLimit);
-        pagingParams.put("q",q);
-        pagingParams.put("type",type);
+        pagingParams.put("start", pagingStart);
+        pagingParams.put("limit", pageLimit);
+        pagingParams.put("q", q);
+        pagingParams.put("type", type);
         List<BoardDTO> boardDTOList = boardRepository.searchList(pagingParams);
         return boardDTOList;
 
@@ -92,9 +92,9 @@ public class BoardService {
         int pageLimit = 5;
         // 하단에 보여줄 페이지 번호 갯수
         int blockLimit = 5;
-        Map<String,Object> pagingParams = new HashMap<>();
-        pagingParams.put("q",q);
-        pagingParams.put("type",type);
+        Map<String, Object> pagingParams = new HashMap<>();
+        pagingParams.put("q", q);
+        pagingParams.put("type", type);
         // 전체 글 갯수 조회
         int boardCount = boardRepository.boardSearchCount(pagingParams);
         // 전체 페이지 갯수 계산
@@ -131,5 +131,31 @@ public class BoardService {
     public List<BoardFileDTO> findFile(Long id) {
         List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(id);
         return boardFileDTOList;
+    }
+
+    public BoardDTO findById(Long id) {
+        BoardDTO boardDTO = boardRepository.findById(id);
+        return boardDTO;
+    }
+
+    public void boardUpdate(BoardDTO dto) throws IOException {
+        if (dto.getBoardProfile().get(0).isEmpty()) {
+            dto.setFileAttached(0);
+            boardRepository.boardUpdate(dto);
+        } else {
+            dto.setFileAttached(1);
+            boardRepository.boardUpdate(dto);
+            for (MultipartFile boardFile : dto.getBoardProfile()) {
+                String originalFileName = boardFile.getOriginalFilename();
+                String storedFileName = System.currentTimeMillis() + "-" + originalFileName;
+                BoardFileDTO boardFileDTO = new BoardFileDTO();
+                boardFileDTO.setOriginalFileName(originalFileName);
+                boardFileDTO.setStoredFileName(storedFileName);
+                boardFileDTO.setBoardId(dto.getId());
+                String savePath = "D:\\signboard\\board\\" + storedFileName;
+                boardFile.transferTo(new File(savePath));
+                boardRepository.saveFile(boardFileDTO);
+            }
+        }
     }
 }

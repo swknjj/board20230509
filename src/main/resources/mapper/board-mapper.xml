@@ -59,6 +59,14 @@
         select * from board_file_table where boardId=#{id};
     </select>
 
+    <select id="findById" parameterType="Long" resultType="board">
+        select * from board_table where id=#{id}
+    </select>
+
+    <select id="boardUpdate" parameterType="board">
+        update board_table set boardTitle=#{boardTitle},boardContents=#{boardContents},fileAttached=#{fileAttached} where id=#{id}
+    </select>
+
 </mapper>
 
 

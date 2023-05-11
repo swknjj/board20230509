@@ -51,8 +51,8 @@
                     </td>
                     <td>${board.fileAttached}</td>
                     <c:if test="${board.memberId eq memberId}">
-                        <th><a href="#">수정</a></th>
-                        <th><a href="/board/delete?page=${i}&q=${q}&type=${type}&memberId=${memberId}&id=${board.id}">삭제</a></th>
+                        <th><a href="/board/update?id=${board.id}">수정</a></th>
+                        <th><a href="/board/delete?id=${board.id}">삭제</a></th>
                     </c:if>
                 </tr>
             </c:forEach>
@@ -124,6 +124,11 @@
             <input type="submit" value="검색">
         </form>
     </div>
+    <div id="paging-change">
+        <label for="paging-changemode">페이지당 볼 글 갯수</label>
+        <input type="text" id="paging-changemode" name="pagingChange">
+        <button onclick="paging_change()">입력</button>
+    </div>
 </div>
 <%@include file="../component/footer.jsp" %>
 </body>
@@ -138,5 +143,8 @@
             searchInput.disabled = false;
         }
     });
+    const paging_change = () => {
+
+    }
 </script>
 </html>
