@@ -114,18 +114,30 @@
     </c:choose>
     <div class="container" id="search-area">
         <form action="/board/boardList" method="get">
-            <select name="type" required>
-                <option value="" disabled hidden>선택해주세요</option>
+            <select name="type" id="typeSelect">
+                <option value="" selected disabled hidden>선택해주세요</option>
                 <option value="">전체</option>
                 <option value="boardTitle">제목</option>
                 <option value="boardWriter">작성자</option>
                 <option value="boardContents">내용</option>
             </select>
-            <input type="text" name="q" placeholder="검색어를 입력하세요">
+            <input type="text" name="q" id="searchInput" placeholder="검색어를 입력하세요" disabled="disabled">
             <input type="submit" value="검색">
         </form>
     </div>
 </div>
 <%@include file="../component/footer.jsp" %>
 </body>
+<script>
+    const typeSelect = document.getElementById("typeSelect");
+    const searchInput = document.getElementById("searchInput");
+
+    typeSelect.addEventListener("change", function() {
+        if (typeSelect.value === "") {
+            searchInput.disabled = true;
+        } else {
+            searchInput.disabled = false;
+        }
+    });
+</script>
 </html>
