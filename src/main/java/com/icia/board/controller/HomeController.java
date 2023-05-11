@@ -1,7 +1,10 @@
 package com.icia.board.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
@@ -25,7 +28,13 @@ public class HomeController {
 
     // 글 작성 페이지로
     @GetMapping("/board/Save")
-    public String boardSaveForm() {
+    public String boardSaveForm(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("loginEmail");
+        if(email!=null){
+            model.addAttribute("loginEmail",email);
+        }else {
+            model.addAttribute("loginEmail","");
+        }
         return "/boardPages/boardSave";
     }
 

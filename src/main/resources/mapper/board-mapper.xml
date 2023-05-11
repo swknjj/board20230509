@@ -37,6 +37,10 @@
             values (#{originalFileName},#{storedFileName},#{boardId})
     </insert>
 
+    <delete id="boardDelete" parameterType="Long">
+        delete from board_table where id=#{boardid}
+    </delete>
+
 </mapper>
 
 

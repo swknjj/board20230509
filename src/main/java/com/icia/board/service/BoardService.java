@@ -123,4 +123,8 @@ public class BoardService {
     public void increase(Long boardId) {
         boardRepository.increase(boardId);
     }
+
+    public void boardDelete(Long boardid) {
+        boardRepository.boardDelete(boardid);
+    }
 }

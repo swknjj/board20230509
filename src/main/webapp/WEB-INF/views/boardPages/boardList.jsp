@@ -47,7 +47,7 @@
                     <td>${board.fileAttached}</td>
                     <c:if test="${board.boardWriter eq memberId}">
                         <th><a href="#">수정</a></th>
-                        <th><a href="#">삭제</a></th>
+                        <th><a href="/board/delete?page=${i}&q=${q}&type=${type}&memberId=${memberId}&id=${board.id}">삭제</a></th>
                     </c:if>
                 </tr>
             </c:forEach>

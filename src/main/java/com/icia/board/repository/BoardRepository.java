@@ -47,4 +47,8 @@ public class BoardRepository {
     public void saveFile(BoardFileDTO boardFileDTO) {
         sql.insert("Board.saveFile",boardFileDTO);
     }
+
+    public void boardDelete(Long boardid) {
+        sql.delete("Board.boardDelete",boardid);
+    }
 }

@@ -75,12 +75,26 @@ public class BoardController {
     public String boardDetail(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                               @RequestParam(value = "q", required = false, defaultValue = "") String q,
                               @RequestParam(value = "type", required = false, defaultValue = "boardTitle") String type,
-                              @RequestParam(value = "memberId", required = false, defaultValue = "") Long id,@ModelAttribute BoardDTO boardDTO,Model model, HttpSession session) {
+                              @RequestParam(value = "memberId", required = false, defaultValue = "") Long id,@ModelAttribute BoardDTO boardDTO,Model model, PageDTO pageDTO) {
         Long board_id = boardDTO.getId();
         boardService.increase(board_id);
         BoardDTO dto = boardService.boardDetail(board_id);
-        System.out.println("dto = " + dto);
+        if (q.equals("")) {
+            pageDTO = boardService.pagingParam(page);
+        } else {
+            pageDTO = boardService.pagingSearchParam(page, type, q);
+        }
+        model.addAttribute("paging", pageDTO);
+        model.addAttribute("q", q);
+        model.addAttribute("type", type);
+        model.addAttribute("memberId", id);
         return "/boardPages/boardDetail";
+    }
+
+    @GetMapping("/board/delete")
+    public String boardDelete(@RequestParam("id") Long boardId) {
+        boardService.boardDelete(boardId);
+        return "redirect:/board/boardList";
     }
 
 
