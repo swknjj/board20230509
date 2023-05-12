@@ -40,8 +40,8 @@ public class BoardService {
     }
 
     public List<BoardDTO> boardList(int page) {
-        int pageLimit = 5;
-        int pagingStart = (page - 1) * pageLimit;
+        int pageLimit = 5; // 한페이지에 보여줄 글 갯수
+        int pagingStart = (page-1) * pageLimit;
         Map<String, Integer> pagingParams = new HashMap<>();
         pagingParams.put("start", pagingStart);
         pagingParams.put("limit", pageLimit);
@@ -50,19 +50,17 @@ public class BoardService {
     }
 
     public PageDTO pagingParam(int page) {
-        // 한 페이지에 보여줄 글 갯수
-        int pageLimit = 5;
-        // 하단에 보여줄 페이지 번호 갯수
-        int blockLimit = 5;
+        int pageLimit = 5; // 한페이지에 보여줄 글 갯수
+        int blockLimit = 5; // 하단에 보여줄 페이지 번호 갯수
         // 전체 글 갯수 조회
         int boardCount = boardRepository.boardCount();
         // 전체 페이지 갯수 계산
-        int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
-        // 시작 페이지 계산
-        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
-        // 마지막 페이지 값 계산
+        int maxPage = (int) (Math.ceil((double)boardCount / pageLimit));
+        // 시작 페이지 값 계산(1, 4, 7, 10 ~~)
+        int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
+        // 마지막 페이지 값 계산(3, 6, 9, 12 ~~)
         int endPage = startPage + blockLimit - 1;
-        // 전체 페이지 갯수가 계산한 endPage보다 작을때는 endPage를 maxPage와 같게 세팅
+        // 전체 페이지 갯수가 계산한 endPage 보다 작을 때는 endPage 값을 maxPage 값과 같게 세팅
         if (endPage > maxPage) {
             endPage = maxPage;
         }
@@ -75,8 +73,8 @@ public class BoardService {
     }
 
     public List<BoardDTO> searchList(int page, String type, String q) {
-        int pageLimit = 5;
-        int pagingStart = (page - 1) * pageLimit;
+        int pageLimit = 5; // 한페이지에 보여줄 글 갯수
+        int pagingStart = (page-1) * pageLimit;
         Map<String, Object> pagingParams = new HashMap<>();
         pagingParams.put("start", pagingStart);
         pagingParams.put("limit", pageLimit);
@@ -84,7 +82,6 @@ public class BoardService {
         pagingParams.put("type", type);
         List<BoardDTO> boardDTOList = boardRepository.searchList(pagingParams);
         return boardDTOList;
-
     }
 
     public PageDTO pagingSearchParam(int page, String type, String q) {
@@ -100,7 +97,7 @@ public class BoardService {
         // 전체 페이지 갯수 계산
         int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
         // 시작 페이지 계산
-        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) + blockLimit;
+        int startPage = ((int) (Math.ceil((double) page / blockLimit))) * blockLimit - (blockLimit - 1);
         // 마지막 페이지 값 계산
         int endPage = startPage + blockLimit - 1;
         // 전체 페이지 갯수가 계산한 endPage보다 작을때는 endPage를 maxPage와 같게 세팅
@@ -145,6 +142,10 @@ public class BoardService {
         } else {
             dto.setFileAttached(1);
             boardRepository.boardUpdate(dto);
+            List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(dto.getId());
+            if(boardFileDTOList!=null){
+                boardRepository.fileDelete(dto.getId());
+            }
             for (MultipartFile boardFile : dto.getBoardProfile()) {
                 String originalFileName = boardFile.getOriginalFilename();
                 String storedFileName = System.currentTimeMillis() + "-" + originalFileName;

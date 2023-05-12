@@ -75,20 +75,16 @@
                         </c:otherwise>
                     </c:choose>
 
-                        <%--  for(int i=startPage; i<=endPage; i++)      --%>
                     <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="i" step="1">
                         <c:choose>
-                            <%-- 요청한 페이지에 있는 경우 현재 페이지 번호는 텍스트만 보이게 --%>
                             <c:when test="${i eq paging.page}">
                                 <li class="page-item active">
                                     <a class="page-link">${i}</a>
                                 </li>
                             </c:when>
-
                             <c:otherwise>
                                 <li class="page-item">
-                                    <a class="page-link"
-                                       href="/member/memberList?page=${i}&q=${q}&type=${type}&memberId=${memberId}">${i}</a>
+                                    <a class="page-link" href="/member/memberList?page=${i}&q=${q}&type=${type}&memberId=${memberId}">${i}</a>
                                 </li>
                             </c:otherwise>
                         </c:choose>

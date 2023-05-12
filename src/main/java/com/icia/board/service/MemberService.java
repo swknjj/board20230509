@@ -110,7 +110,7 @@ public class MemberService {
         // 전체 페이지 갯수 계산
         int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
         // 시작 페이지 계산
-        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) + blockLimit;
+        int startPage = ((int) (Math.ceil((double) page / blockLimit))) * blockLimit - (blockLimit - 1);
         // 마지막 페이지 값 계산
         int endPage = startPage + blockLimit - 1;
         // 전체 페이지 갯수가 계산한 endPage보다 작을때는 endPage를 maxPage와 같게 세팅

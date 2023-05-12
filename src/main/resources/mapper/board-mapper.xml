@@ -29,7 +29,7 @@
     <select id="boardSearchCount" parameterType="HashMap" resultType="Integer">
         select count(id)
         from board_table
-        where #{type} like concat('%', #{q}, '%')
+        where ${type} like concat('%', #{q}, '%')
     </select>
 
     <select id="boardDetail" parameterType="Long" resultType="board">
@@ -66,6 +66,10 @@
     <select id="boardUpdate" parameterType="board">
         update board_table set boardTitle=#{boardTitle},boardContents=#{boardContents},fileAttached=#{fileAttached} where id=#{id}
     </select>
+
+    <delete id="fileDelete" parameterType="Long">
+        delete from board_file_table where boardId=#{id}
+    </delete>
 
 </mapper>
 

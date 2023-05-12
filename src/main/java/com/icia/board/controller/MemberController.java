@@ -85,6 +85,7 @@ public class MemberController {
             model.addAttribute("type", type);
             model.addAttribute("memberId", id);
         }
+        System.out.println(pageDTO);
         return "/memberPages/memberList";
     }
 

@@ -53,7 +53,7 @@
     <select id="searchCount" parameterType="HashMap" resultType="Integer">
         select count(id)
         from member_table
-        where #{type} like concat('%', #{q}, '%')
+        where ${type} like concat('%', #{q}, '%')
     </select>
 
     <select id="findFile" parameterType="Long" resultType="memberFile">

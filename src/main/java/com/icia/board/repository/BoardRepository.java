@@ -64,4 +64,7 @@ public class BoardRepository {
         sql.update("Board.boardUpdate",dto);
     }
 
+    public void fileDelete(Long id) {
+        sql.delete("Board.fileDelete",id);
+    }
 }
